@@ -9,6 +9,7 @@ jobs:
   google-cloud-deploy:
     # worker runs on latest ubuntu
     runs-on: ubuntu-latest
+    environment: Production
     steps:
       - name: Step 1 - Echo out a GitHub Actions Secret to the logs
         run: |
