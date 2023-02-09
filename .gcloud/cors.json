@@ -1,0 +1,7 @@
+[
+  {
+    "origin": ["https://albertsigman.com", "http://localhost:8000"],
+    "method": ["POST"],
+    "maxAgeSeconds": 180
+  }
+]

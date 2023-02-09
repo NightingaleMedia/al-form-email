@@ -1,0 +1,38 @@
+name: deploy-dev-google-functions
+on:
+  push:
+    tags:
+      - dev prod db function
+    branches:
+      - production
+jobs:
+  google-cloud-deploy:
+    # worker runs on latest ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      # checkout to our repository so we have access to the source code
+      - uses: actions/checkout@v3
+        with:
+          ref: production # Reference a branch
+      # the actual deployment to google
+      - name: Cloud Functions Deploy
+        uses: google-github-actions/deploy-cloud-functions@v0.1.2
+        with:
+          credentials: ${{ secrets.GCP_SA_KEY }}
+          name: send-al-email
+          description: sends al an email # nullable
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          region: us-east4
+          # source_dir: /
+          # name of our function in our main.py file, defaults to the resource name suffix
+          entry_point: main
+          # runtime to use for the function
+          runtime: nodejs16
+          memory_mb: 1024
+          # the function execution timeout
+          timeout: 540
+          # the maximum number of instances for the function.
+          max_instances: 3
+          # optional configs, see google-cloud-actions/deploy-cloud-functions for full reference
+          # list of key-value pairs to set as environment variables in the form KEY1=VALUE1,KEY2=VALUE2.
+          env_vars: SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }}
