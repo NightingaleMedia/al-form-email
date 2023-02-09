@@ -19,6 +19,7 @@ const send_email = async ({ subject, message, name }, from) => {
 };
 
 exports.main = async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
   try {
     const { name, subject, email, message } = req.body;
 
