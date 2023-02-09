@@ -15,10 +15,15 @@ jobs:
         with:
           ref: production # Reference a branch
       # the actual deployment to google
-      - name: Cloud Functions Deploy
-        uses: google-github-actions/deploy-cloud-functions@v0.1.2
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
         with:
-          credentials: ${{ secrets.GCP_SA_KEY }}
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          service_account: "al-form-email@als-website-356514.iam.gserviceaccount.com"
+
+      - name: Cloud Functions Deploy
+        uses: google-github-actions/deploy-cloud-functions@v1
+        with:
           name: send-al-email
           description: sends al an email # nullable
           project_id: ${{ secrets.GCP_PROJECT_ID }}
