@@ -2,7 +2,7 @@ name: deploy-dev-google-functions
 on:
   push:
     tags:
-      - dev prod db function
+      - production email
     branches:
       - production
 jobs:

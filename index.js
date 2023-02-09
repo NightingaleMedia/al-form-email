@@ -5,7 +5,8 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const send_email = async ({ subject, message, name }, from) => {
   return await sgMail.send({
     to: "alsigman@gmail.com",
-    from: from,
+    from: "alsigman@gmail.com",
+    replyTo: from,
     subject: subject,
     templateId: "d-756afa560cf24b9fb37d206858fa05ea",
     dynamicTemplateData: {
@@ -20,11 +21,15 @@ const send_email = async ({ subject, message, name }, from) => {
 exports.main = async (req, res) => {
   try {
     const { name, subject, email, message } = req.body;
-    send_email({ subject, message, name }, email).then((res) => {
-      console.log(res);
-    });
+
+    if (!name || !subject || !email || !message) throw "Missing fields!";
+
+    console.log("try");
+    await send_email({ subject, message, name }, email);
+
+    res.send({ message: "Thank you for reaching out!" });
   } catch (error) {
     console.log("got error: ", error);
-    res.status(400).send(error);
+    res.status(400).send({ message: error.toString() });
   }
 };
