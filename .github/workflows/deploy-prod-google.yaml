@@ -19,8 +19,6 @@ jobs:
         uses: "google-github-actions/auth@v1"
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
-          service_account: "al-form-email@als-website-356514.iam.gserviceaccount.com"
-
       - name: Cloud Functions Deploy
         uses: google-github-actions/deploy-cloud-functions@v1
         with:
