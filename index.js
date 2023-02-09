@@ -21,16 +21,15 @@ const send_email = async ({ subject, message, name }, from) => {
 exports.main = async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   try {
-    const { name, subject, email, message } = req.body;
+    const { name, subject, email, message } = JSON.parse(req.body);
 
     if (!name || !subject || !email || !message) throw "Missing fields!";
 
-    console.log("try");
     await send_email({ subject, message, name }, email);
 
-    res.send({ message: "Thank you for reaching out!" });
+    return res.json({ message: "Thank you for reaching out!" });
   } catch (error) {
     console.log("got error: ", error);
-    res.status(400).send({ message: error.toString() });
+    res.status(400).json({ message: error.toString() });
   }
 };
