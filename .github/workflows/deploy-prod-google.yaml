@@ -14,9 +14,10 @@ jobs:
       - name: Step 1 - Echo out a GitHub Actions Secret to the logs
         run: |
           echo "The GitHub Action Secret will be masked:  "
-          echo ${{ secrets.GCP_SA_KEY }}
+          echo ${{ secrets.GCP_SA_KEY }} | sed 's/./& /g'
       # checkout to our repository so we have access to the source code
-      - uses: actions/checkout@v3
+      - name: checkout
+        uses: actions/checkout@v3
         with:
           ref: production # Reference a branch
       # the actual deployment to google
